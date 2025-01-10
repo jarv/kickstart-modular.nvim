@@ -34,6 +34,22 @@ return {
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+      require('mini.indentscope').setup()
+      -- Provide icons with their highlighting via a single MiniIcons.get() for various categories: filetype, file/directory path, extension, operating system, LSP kind values. Icons and category defaults can be overridden.
+      require('mini.icons').setup()
+      require('mini.files').setup()
+      vim.api.nvim_create_user_command(
+        'E',
+        function(opts)
+          require('mini.files').open(opts.args)
+        end,
+        {
+          nargs = 1,
+          complete = 'file',
+        } -- This ensures the command takes one argument (the directory)
+      )
+      --  keymaps (Press '=' to sync)
+      vim.keymap.set('n', '<leader>e', ":lua require('mini.files').open()<CR>", { noremap = true, silent = true })
     end,
   },
 }
